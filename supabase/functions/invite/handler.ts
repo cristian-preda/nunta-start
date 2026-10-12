@@ -86,7 +86,8 @@ export async function handleInvite(req: Request, deps: Deps): Promise<Response> 
   if (!deps.siteUrl || !deps.deliver) return json({ error: 'email is not configured' }, 500);
 
   const { data, error } = await deps.createInvitation(authorization, { weddingId, email, role });
-  if (error || !data) return json({ error: error?.message ?? 'could not create the invitation' }, statusOf(error?.code));
+  if (error || !data)
+    return json({ error: error?.message ?? 'could not create the invitation' }, statusOf(error?.code));
 
   const mail = inviteEmail({
     locale: parseEmailLocale(body.locale),
