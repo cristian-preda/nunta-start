@@ -26,7 +26,7 @@ export function LanguageSwitch() {
   return (
     <fieldset className="m-0 flex min-w-0 items-center border-0 p-0 text-xs font-semibold">
       <legend className="sr-only">{t.landing.language}</legend>
-      {LOCALES.map((value, i) => (
+      {[locale, ...LOCALES.filter((l) => l !== locale)].map((value, i) => (
         <span key={value} className="flex items-center">
           {i > 0 && (
             <span aria-hidden="true" className="text-faint">
