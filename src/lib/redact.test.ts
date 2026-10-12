@@ -10,6 +10,10 @@ describe('redactSecrets', () => {
     expect(redactSecrets('https://x.ro/r/0123abcd?x=1')).toBe('https://x.ro/r/[redacted]?x=1');
   });
 
+  it('hides the timeline share token', () => {
+    expect(redactSecrets('https://x.ro/t/0123abcd?print=1')).toBe('https://x.ro/t/[redacted]?print=1');
+  });
+
   it('hides auth params in query and hash', () => {
     expect(redactSecrets('/auth/callback?code=abc&next=/w')).toBe('/auth/callback?code=[redacted]&next=/w');
     expect(redactSecrets('/auth/callback#access_token=a.b.c&refresh_token=r&type=magiclink')).toBe(

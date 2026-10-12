@@ -581,6 +581,41 @@ export const ro = {
     moveUp: (title: string) => `Mută mai sus: ${title}`,
     moveDown: (title: string) => `Mută mai jos: ${title}`,
     until: (end: string) => `până la ${end}`,
+    share: 'Distribuie',
+    shareTitle: 'Distribuiți programul',
+    shareIntro:
+      'Oricine are linkul vede programul zilei, cu locurile și notele, fără cont. Îl puteți trimite furnizorilor și nașilor.',
+    shareReplaces:
+      'Linkul nu se poate recupera după ce închideți fereastra. Un link nou îl oprește pe cel trimis înainte.',
+    shareCreate: 'Creează link',
+    shareLinkLabel: 'Linkul programului',
+    shareCopy: 'Copiază linkul',
+    shareCopied: 'Link copiat',
+    shareWhatsapp: 'WhatsApp',
+    shareMessage: (name: string, url: string) => `Programul zilei nunții ${name}: ${url}`,
+    shareStop: 'Oprește distribuirea',
+    shareStopConfirm: 'Da, oprește',
+    shareStopWarning: 'Linkul trimis nu va mai funcționa.',
+    shareStopped: 'Distribuirea a fost oprită. Linkul nu mai funcționează.',
+    shareFailed: 'Nu am putut face asta. Încercați din nou.',
+    shareClose: 'Închide',
+  },
+
+  sharedTimeline: {
+    eyebrow: 'Programul zilei',
+    note: 'Pagină doar pentru citire. Deschideți din nou linkul ca să vedeți versiunea de acum.',
+    print: 'Tipărește',
+    loading: 'Se încarcă programul…',
+    empty: 'Programul nu are încă niciun eveniment.',
+    notFoundTitle: 'Linkul nu mai funcționează',
+    notFoundBody: 'A fost oprit sau înlocuit. Cereți un link nou celor care v-au trimis programul.',
+    errorTitle: 'Nu am putut încărca programul',
+    retry: 'Încercați din nou',
+    errors: {
+      network: 'Verificați conexiunea la internet și încercați din nou.',
+      notConfigured: 'Pagina nu este configurată încă.',
+      generic: 'Ceva nu a mers. Încercați din nou.',
+    },
   },
 
   collections: {

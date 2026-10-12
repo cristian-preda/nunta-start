@@ -1,7 +1,7 @@
-const PATH_TOKEN = /(\/(?:invite|r)\/)[^/?#"\\\s]+/g;
+const PATH_TOKEN = /(\/(?:invite|r|t)\/)[^/?#"\\\s]+/g;
 const AUTH_PARAM = /([?&#](?:code|access_token|refresh_token|provider_token|token_hash|token)=)[^&#"\\\s]+/g;
 
-/** Scoate din text tokenul unei invitații sau al unui link RSVP și parametrii de autentificare din adrese, ca să nu ajungă la terți (telemetrie). */
+/** Scoate din text tokenul unei invitații, al unui link RSVP sau al programului distribuit și parametrii de autentificare din adrese, ca să nu ajungă la terți (telemetrie). */
 export function redactSecrets(text: string): string {
   return text.replace(PATH_TOKEN, '$1[redacted]').replace(AUTH_PARAM, '$1[redacted]');
 }

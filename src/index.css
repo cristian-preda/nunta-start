@@ -175,3 +175,11 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+
+/* Hârtia e albă: fără fundalul paginii la tipărire (și la „Salvează ca PDF"). */
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+}

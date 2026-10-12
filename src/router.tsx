@@ -36,6 +36,7 @@ import { Onboarding } from './screens/Onboarding';
 import { Pages } from './screens/Pages';
 import { RsvpRoute } from './screens/Rsvp';
 import { Settings } from './screens/Settings';
+import { SharedTimelineRoute } from './screens/SharedTimeline';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
 import { Timeline } from './screens/Timeline';
@@ -177,6 +178,11 @@ const inviteRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.i
 
 // Confirmarea de participare: pagină publică, fără cont (tokenul din adresă e singura "cheie").
 const rsvpRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.rsvp, component: RsvpRoute });
+const timelineShareRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: paths.timelineShare,
+  component: SharedTimelineRoute,
+});
 
 const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   createRoute({
@@ -196,6 +202,7 @@ const routeTree = rootRoute.addChildren([
   workspacesRoute,
   inviteRoute,
   rsvpRoute,
+  timelineShareRoute,
   ...legalRoutes,
   ...legacyRoutes,
 ]);

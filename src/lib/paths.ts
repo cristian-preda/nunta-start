@@ -18,7 +18,12 @@ export const paths = {
   terms: '/terms',
   /** Pagina publică de confirmare a unei familii (NS-082), fără cont. */
   rsvp: '/r/$token',
+  /** Programul zilei nunții, în citire, fără cont (NS-122). */
+  timelineShare: '/t/$token',
 } as const;
+
+/** Adresa programului distribuit, cu tokenul codat. */
+export const timelineSharePath = (token: string) => `/t/${encodeURIComponent(token)}`;
 
 /** Adresa de confirmare a unei familii, cu tokenul codat. */
 export const rsvpPath = (token: string) => `/r/${encodeURIComponent(token)}`;

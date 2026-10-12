@@ -20,3 +20,7 @@
 
 /terms
   X-Robots-Tag: noindex
+
+# Linkul de program e personal: fără indexare. Pagina mai pune și un meta robots, datele vin dintr-o funcție no-store.
+/t/*
+  X-Robots-Tag: noindex
