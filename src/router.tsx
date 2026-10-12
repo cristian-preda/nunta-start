@@ -12,6 +12,7 @@ import {
   guestsQuery,
   householdsQuery,
   tasksQuery,
+  timelineQuery,
   weddingQuery,
   weddingsQuery,
 } from './data/queries';
@@ -37,6 +38,7 @@ import { RsvpRoute } from './screens/Rsvp';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
+import { Timeline } from './screens/Timeline';
 import { Workspaces } from './screens/Workspaces';
 
 const rootRoute = createRootRoute({ component: Outlet, errorComponent: RouteError, notFoundComponent: NotFound });
@@ -114,6 +116,7 @@ const weddingRoute = createRoute({
       queryClient.ensureQueryData(budgetLinesQuery(weddingId)),
       queryClient.ensureQueryData(householdsQuery(weddingId)),
       queryClient.ensureQueryData(guestsQuery(weddingId)),
+      queryClient.ensureQueryData(timelineQuery(weddingId)),
       queryClient.ensureQueryData(collectionsQuery(weddingId)),
       queryClient.ensureQueryData(collectionFieldsQuery(weddingId)),
       queryClient.ensureQueryData(collectionRecordsQuery(weddingId)),
@@ -132,6 +135,7 @@ const weddingChildren = [
   }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/calculator', component: Calculator }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/guests', component: Guests }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/timeline', component: Timeline }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/pages', component: Pages }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/pages/$slug', component: CollectionPage }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/settings', component: Settings }),

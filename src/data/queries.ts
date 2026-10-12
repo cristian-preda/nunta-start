@@ -5,6 +5,7 @@ import { getBudgetSettings, listBudgetLines, listBudgetScenarios } from './budge
 import { listCollectionFields, listCollectionRecords, listCollections } from './collections';
 import { listGuests, listHouseholds } from './guests';
 import { listTasks } from './tasks';
+import { listTimelineEvents } from './timeline';
 import { getWedding, listMyWeddings } from './weddings';
 
 export const weddingsQuery = () => queryOptions({ queryKey: keys.list(), queryFn: listMyWeddings });
@@ -44,3 +45,6 @@ export const collectionRecordsQuery = (weddingId: string) =>
     queryKey: keys.wedding(weddingId).collectionRecords(),
     queryFn: () => listCollectionRecords(weddingId),
   });
+
+export const timelineQuery = (weddingId: string) =>
+  queryOptions({ queryKey: keys.wedding(weddingId).timeline(), queryFn: () => listTimelineEvents(weddingId) });

@@ -28,6 +28,7 @@ export const routes = {
   home: '/w/$weddingId',
   tasks: '/w/$weddingId/start',
   guests: '/w/$weddingId/guests',
+  timeline: '/w/$weddingId/timeline',
   budget: '/w/$weddingId/calculator',
   pages: '/w/$weddingId/pages',
   settings: '/w/$weddingId/settings',
@@ -50,6 +51,7 @@ export const invitePath = (token: string) => `/invite/${encodeURIComponent(token
 export const UNSCOPED_PATHS = {
   tasks: '/w/start',
   guests: '/w/guests',
+  timeline: '/w/timeline',
   budget: '/w/calculator',
   pages: '/w/pages',
   settings: '/w/settings',

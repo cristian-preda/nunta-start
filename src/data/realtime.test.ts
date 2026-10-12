@@ -10,6 +10,7 @@ import type {
   ServerGuest,
   ServerHousehold,
   ServerTask,
+  ServerTimelineEvent,
 } from './mappers';
 import {
   applyChange,
@@ -239,6 +240,47 @@ describe('applyChange on households and guests', () => {
   });
 });
 
+describe('applyChange on the timeline', () => {
+  const eventRecord = (id: string, over: Record<string, unknown> = {}) => ({
+    id,
+    wedding_id: W,
+    title: `Eveniment ${id}`,
+    start_time: '14:30:00',
+    duration_minutes: 45,
+    location: '',
+    notes: '',
+    position: 10,
+    ...over,
+  });
+
+  it('adds, updates and deletes events, keeping position order and reading the time without seconds', () => {
+    const queryClient = clientWith();
+    queryClient.setQueryData(k.timeline(), []);
+    applyChange(queryClient, W, change('timeline_events', 'INSERT', eventRecord('b', { position: 20 })), idle);
+    applyChange(queryClient, W, change('timeline_events', 'INSERT', eventRecord('a', { position: 10 })), idle);
+    const list = () => queryClient.getQueryData<ServerTimelineEvent[]>(k.timeline()) ?? [];
+    expect(list().map((e) => e.id)).toEqual(['a', 'b']);
+    expect(list()[0].startTime).toBe('14:30');
+    applyChange(queryClient, W, change('timeline_events', 'UPDATE', eventRecord('a', { title: 'Nou' })), idle);
+    expect(list()).toHaveLength(2);
+    expect(list()[0].title).toBe('Nou');
+    applyChange(queryClient, W, change('timeline_events', 'DELETE', eventRecord('a')), idle);
+    expect(list().map((e) => e.id)).toEqual(['b']);
+  });
+
+  it('skips the list while this client is writing it', () => {
+    const queryClient = clientWith();
+    queryClient.setQueryData(k.timeline(), []);
+    const asked: unknown[] = [];
+    applyChange(queryClient, W, change('timeline_events', 'INSERT', eventRecord('a')), (key) => {
+      asked.push(key);
+      return true;
+    });
+    expect(queryClient.getQueryData<ServerTimelineEvent[]>(k.timeline())).toHaveLength(0);
+    expect(asked[0]).toEqual([...k.timeline(), 'write']);
+  });
+});
+
 describe('applyChange on custom pages', () => {
   const collectionRecord = (id: string, over: Record<string, unknown> = {}) => ({
     id,
@@ -358,14 +400,15 @@ describe('subscribeToWedding', () => {
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.budget() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.households() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.guests() });
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.timeline() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collections() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collectionFields() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collectionRecords() });
-    expect(invalidate).toHaveBeenCalledTimes(7);
+    expect(invalidate).toHaveBeenCalledTimes(8);
     f.status('CHANNEL_ERROR');
-    expect(invalidate).toHaveBeenCalledTimes(7);
+    expect(invalidate).toHaveBeenCalledTimes(8);
     f.status('SUBSCRIBED');
-    expect(invalidate).toHaveBeenCalledTimes(14);
+    expect(invalidate).toHaveBeenCalledTimes(16);
   });
 
   it('leaves the channel on cleanup', () => {
