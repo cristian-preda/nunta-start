@@ -24,8 +24,11 @@ import {
   type ServerGuest,
   type ServerHousehold,
   type ServerTask,
+  type ServerTimelineEvent,
   type TaskRow,
+  type TimelineEventRow,
   taskFromRow,
+  timelineEventFromRow,
 } from './mappers';
 
 export type ChangeOp = 'INSERT' | 'UPDATE' | 'DELETE';
@@ -114,6 +117,13 @@ export function applyChange(
       const guest = guestFromRow(record as GuestRow);
       patch<ServerGuest[]>(k.guests(), [...k.guests(), 'write'], (list) =>
         patchList(list, op, guest, (a, b) => a.position - b.position),
+      );
+      return;
+    }
+    case 'timeline_events': {
+      const event = timelineEventFromRow(record as TimelineEventRow);
+      patch<ServerTimelineEvent[]>(k.timeline(), [...k.timeline(), 'write'], (list) =>
+        patchList(list, op, event, (a, b) => a.position - b.position),
       );
       return;
     }
@@ -209,6 +219,7 @@ export function subscribeToWedding(
       void queryClient.invalidateQueries({ queryKey: k.budget() });
       void queryClient.invalidateQueries({ queryKey: k.households() });
       void queryClient.invalidateQueries({ queryKey: k.guests() });
+      void queryClient.invalidateQueries({ queryKey: k.timeline() });
       void queryClient.invalidateQueries({ queryKey: k.collections() });
       void queryClient.invalidateQueries({ queryKey: k.collectionFields() });
       void queryClient.invalidateQueries({ queryKey: k.collectionRecords() });

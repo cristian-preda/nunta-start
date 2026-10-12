@@ -22,16 +22,17 @@ function task(over: Partial<Task>): Task {
 }
 
 describe('NAV_ITEMS', () => {
-  it('are cele șase rute, în ordine, fără dubluri', () => {
+  it('are cele șapte rute, în ordine, fără dubluri', () => {
     expect(NAV_ITEMS.map((i) => i.to)).toEqual([
       '/w/$weddingId',
       '/w/$weddingId/start',
       '/w/$weddingId/guests',
+      '/w/$weddingId/timeline',
       '/w/$weddingId/calculator',
       '/w/$weddingId/pages',
       '/w/$weddingId/settings',
     ]);
-    expect(new Set(NAV_ITEMS.map((i) => i.id)).size).toBe(6);
+    expect(new Set(NAV_ITEMS.map((i) => i.id)).size).toBe(7);
   });
 });
 
@@ -41,6 +42,7 @@ describe('navIdForPath', () => {
     expect(navIdForPath('/w/abc/')).toBe('home');
     expect(navIdForPath('/w/abc/start')).toBe('tasks');
     expect(navIdForPath('/w/abc/guests')).toBe('guests');
+    expect(navIdForPath('/w/abc/timeline')).toBe('timeline');
     expect(navIdForPath('/w/abc/calculator/')).toBe('budget');
     expect(navIdForPath('/w/abc/settings')).toBe('settings');
     expect(navIdForPath('/w/abc/pages/furnizori')).toBe('pages');

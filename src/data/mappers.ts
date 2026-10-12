@@ -20,6 +20,7 @@ import { AGE_GROUPS, ATTENDING, DIETS } from '../domain/guests';
 import { DEFAULT_EUR_RATE, DEFAULT_GUESTS } from '../domain/initial';
 import type { Budget, BudgetLine, Category, Currency, Money, Owner, Settings, Status, Task } from '../domain/schema';
 import { CATEGORY_IDS, CURRENCIES, MAX_GODPARENT_PAIRS, OWNERS, STATUSES } from '../domain/schema';
+import { type TimelineEvent, timeFromDb } from '../domain/timeline';
 import type { Role } from '../lib/workspaces';
 import type { Database, Json } from '../types/database';
 
@@ -520,6 +521,56 @@ export function guestPatchToUpdate(patch: GuestPatch): GuestUpdate {
     ...(patch.ageGroup !== undefined && { age_group: patch.ageGroup }),
     ...(patch.diet !== undefined && { diet: patch.diet }),
     ...(patch.attending !== undefined && { attending: patch.attending }),
+  };
+}
+
+// -------------------------------------------------------------- timeline
+
+export type TimelineEventRow = Tables['timeline_events']['Row'];
+export type TimelineEventInsert = Tables['timeline_events']['Insert'];
+export type TimelineEventUpdate = Tables['timeline_events']['Update'];
+
+/** Evenimentul din domeniu, cu poziția din server (ca `ServerGuest`). */
+export type ServerTimelineEvent = TimelineEvent & { position: number };
+export type TimelineEventPatch = Partial<
+  Pick<TimelineEvent, 'title' | 'startTime' | 'durationMinutes' | 'location' | 'notes'>
+>;
+
+export function timelineEventFromRow(row: TimelineEventRow): ServerTimelineEvent {
+  return {
+    id: row.id,
+    title: row.title,
+    startTime: timeFromDb(row.start_time),
+    durationMinutes: row.duration_minutes,
+    location: row.location,
+    notes: row.notes,
+    position: row.position,
+  };
+}
+
+/** `id` vine de la client (UUID), ca update-ul optimist să aibă același id. */
+export function timelineEventToInsert(weddingId: string, e: ServerTimelineEvent): TimelineEventInsert {
+  return {
+    id: e.id,
+    wedding_id: weddingId,
+    title: e.title,
+    start_time: e.startTime,
+    duration_minutes: e.durationMinutes,
+    location: e.location,
+    notes: e.notes,
+    position: e.position,
+  };
+}
+
+/** Doar coloanele din `patch` pleacă spre server; durata `null` o șterge. */
+export function timelineEventPatchToUpdate(patch: TimelineEventPatch, position?: number): TimelineEventUpdate {
+  return {
+    ...(patch.title !== undefined && { title: patch.title }),
+    ...(patch.startTime !== undefined && { start_time: patch.startTime }),
+    ...(patch.durationMinutes !== undefined && { duration_minutes: patch.durationMinutes }),
+    ...(patch.location !== undefined && { location: patch.location }),
+    ...(patch.notes !== undefined && { notes: patch.notes }),
+    ...(position !== undefined && { position }),
   };
 }
 

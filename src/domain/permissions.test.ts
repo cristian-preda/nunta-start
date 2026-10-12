@@ -7,10 +7,11 @@ describe('canEdit', () => {
     for (const m of MODULES) expect(canEdit('viewer', m)).toBe(false);
   });
 
-  it('lets the helper edit tasks, guests and custom pages only', () => {
+  it('lets the helper edit tasks, guests, custom pages and the timeline only', () => {
     expect(canEdit('helper', 'tasks')).toBe(true);
     expect(canEdit('helper', 'guests')).toBe(true);
     expect(canEdit('helper', 'pages')).toBe(true);
+    expect(canEdit('helper', 'timeline')).toBe(true);
     expect(canEdit('helper', 'budget')).toBe(false);
     expect(canEdit('helper', 'settings')).toBe(false);
   });

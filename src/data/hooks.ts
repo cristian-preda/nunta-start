@@ -15,6 +15,7 @@ import {
   type ServerGuest,
   type ServerHousehold,
   type ServerTask,
+  type ServerTimelineEvent,
   scenarioIds,
   settingsFromWedding,
 } from './mappers';
@@ -28,6 +29,7 @@ import {
   guestsQuery,
   householdsQuery,
   tasksQuery,
+  timelineQuery,
 } from './queries';
 
 export function useTasks(weddingId: string): ServerTask[] {
@@ -40,6 +42,10 @@ export function useHouseholds(weddingId: string): ServerHousehold[] {
 
 export function useGuests(weddingId: string): ServerGuest[] {
   return useSuspenseQuery(guestsQuery(weddingId)).data;
+}
+
+export function useTimeline(weddingId: string): ServerTimelineEvent[] {
+  return useSuspenseQuery(timelineQuery(weddingId)).data;
 }
 
 export function useCollections(weddingId: string): ServerCollection[] {

@@ -3,6 +3,7 @@ import { Link, Outlet, useParams, useRouterState } from '@tanstack/react-router'
 import {
   ArrowLeftRight,
   Calculator,
+  CalendarClock,
   FileText,
   House,
   ListChecks,
@@ -28,6 +29,7 @@ const NAV_ICONS: Record<NavId, LucideIcon> = {
   home: House,
   tasks: ListChecks,
   guests: Users,
+  timeline: CalendarClock,
   budget: Calculator,
   pages: FileText,
   settings: Settings,
@@ -231,7 +233,7 @@ function MobileTabBar() {
       aria-label={t.shell.mainNav}
       className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
     >
-      <ul className="grid grid-cols-6">
+      <ul className="grid grid-cols-7">
         {NAV_ITEMS.map(({ id, to }) => {
           const Icon = NAV_ICONS[id];
           return (

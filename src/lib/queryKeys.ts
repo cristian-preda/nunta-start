@@ -19,6 +19,7 @@ export const keys = {
       budgetLines: () => [...base, 'budget', 'lines'] as const,
       guests: () => [...base, 'guests'] as const,
       households: () => [...base, 'households'] as const,
+      timeline: () => [...base, 'timeline'] as const,
       collections: () => [...base, 'collections'] as const,
       collectionFields: () => [...base, 'collection-fields'] as const,
       collectionRecords: () => [...base, 'collection-records'] as const,
