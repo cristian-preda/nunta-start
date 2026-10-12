@@ -398,6 +398,9 @@ isOneToOne: false
 "generate_timeline_share_token":
 { Args: { "p_wedding_id": string }; Returns: string
                            },
+"get_shared_timeline":
+{ Args: { "p_token": string }; Returns: Json
+                           },
 "inspect_invitation":
 { Args: { "p_token": string }; Returns: Json
                            },
@@ -408,6 +411,9 @@ isOneToOne: false
                            },
 "patch_collection_record":
 { Args: { "p_patch": Json,"p_record_id": string }; Returns: undefined
+                           },
+"revoke_timeline_share_token":
+{ Args: { "p_wedding_id": string }; Returns: undefined
                            }
           }
           Enums: {

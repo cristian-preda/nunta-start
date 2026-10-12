@@ -11,7 +11,7 @@ vi.mock('../data/timelineActions', () => ({
   useTimelineActions: () => ({ addEvent: vi.fn(), updateEvent: vi.fn(), removeEvent: vi.fn(), moveEvent: vi.fn() }),
 }));
 vi.mock('../lib/wedding', () => ({
-  useWedding: () => ({ id: 'w1', canEdit: () => state.editable }),
+  useWedding: () => ({ id: 'w1', wedding: { name: 'Ana & Mihai' }, canEdit: () => state.editable }),
 }));
 
 const t = getMessages();
@@ -41,6 +41,8 @@ describe('Timeline screen', () => {
     const html = render();
     expect(html).toContain(t.timeline.emptyTitle);
     expect(html).toContain(t.timeline.newEvent);
+    expect(html).toContain(t.timeline.share);
+    expect(html).toContain(t.timeline.shareTitle);
   });
 
   it('lists the events in position order with their times, place and notes', () => {
@@ -82,6 +84,8 @@ describe('Timeline screen', () => {
     expect(html).toContain(t.timeline.readOnly);
     expect(html).toContain('Eveniment a');
     expect(html).not.toContain(t.timeline.newEvent);
+    expect(html).not.toContain(t.timeline.share);
+    expect(html).not.toContain(t.timeline.shareTitle);
     expect(button(html, t.timeline.edit('Eveniment a'))).toBeUndefined();
     expect(button(html, t.timeline.moveUp('Eveniment a'))).toBeUndefined();
   });

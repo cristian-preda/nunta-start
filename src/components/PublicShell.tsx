@@ -15,7 +15,7 @@ export function PublicShell({ headerAction, children }: { headerAction?: ReactNo
   const t = useT();
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
-      <header className="flex items-center justify-between gap-3 px-4 py-4 md:px-10 md:py-5">
+      <header className="flex items-center justify-between gap-3 px-4 py-4 md:px-10 md:py-5 print:hidden">
         <Link to="/" className={`flex min-h-11 items-center gap-3 rounded-lg ${LINK_FOCUS}`}>
           <span
             aria-hidden="true"

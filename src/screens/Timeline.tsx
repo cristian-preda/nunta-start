@@ -1,7 +1,8 @@
-import { ArrowDown, ArrowUp, CalendarClock, MapPin, Pencil, Plus } from 'lucide-react';
+import { ArrowDown, ArrowUp, CalendarClock, MapPin, Pencil, Plus, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { EventDialog } from '../components/timeline/EventDialog';
+import { ShareDialog } from '../components/timeline/ShareDialog';
 import { Banner, Button, Card, EmptyState, IconButton } from '../components/ui';
 import { useTimeline } from '../data/hooks';
 import { useTimelineActions } from '../data/timelineActions';
@@ -12,13 +13,14 @@ import { useWedding } from '../lib/wedding';
 /** Programul zilei nunții: evenimentele în ordine, cu adăugare, editare, ștergere și mutare. */
 export function Timeline() {
   const t = useT();
-  const { id: weddingId, canEdit } = useWedding();
+  const { id: weddingId, wedding, canEdit } = useWedding();
   const events = useTimeline(weddingId);
   const actions = useTimelineActions(weddingId);
   const readOnly = !canEdit('timeline');
   // `null`: dialog închis; `'new'`: eveniment nou; un id: editarea acelui eveniment.
   const [dialog, setDialog] = useState<'new' | string | null>(null);
   const editing = dialog && dialog !== 'new' ? events.find((e) => e.id === dialog) : undefined;
+  const [sharing, setSharing] = useState(false);
   const sorted = [...events].sort((a, b) => a.position - b.position);
 
   return (
@@ -28,10 +30,16 @@ export function Timeline() {
         subtitle={t.timeline.subtitle}
         action={
           readOnly ? undefined : (
-            <Button onClick={() => setDialog('new')}>
-              <Plus size={16} aria-hidden="true" />
-              {t.timeline.newEvent}
-            </Button>
+            <>
+              <Button variant="ghost" onClick={() => setSharing(true)}>
+                <Share2 size={16} aria-hidden="true" />
+                {t.timeline.share}
+              </Button>
+              <Button onClick={() => setDialog('new')}>
+                <Plus size={16} aria-hidden="true" />
+                {t.timeline.newEvent}
+              </Button>
+            </>
           )
         }
       />
@@ -98,6 +106,15 @@ export function Timeline() {
           </ol>
           {!readOnly && <p className="mt-4 text-xs text-muted">{t.timeline.orderHint}</p>}
         </>
+      )}
+
+      {!readOnly && (
+        <ShareDialog
+          open={sharing}
+          weddingId={weddingId}
+          weddingName={wedding.name}
+          onClose={() => setSharing(false)}
+        />
       )}
 
       {!readOnly && (

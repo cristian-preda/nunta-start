@@ -571,6 +571,8 @@ export function EmptyState({
 /**
  * Dialog modal pe <dialog> nativ: focusul rămâne în el, Escape îl închide, iar la închidere
  * focusul revine pe butonul care l-a deschis (le face browserul). Click pe fundal închide.
+ * Cu `locked` nu se închide nici cu Escape, nici cu clic pe fundal: pentru cât timp rulează o scriere
+ * care nu mai poate fi oprită (apelantul își dezactivează și butoanele de închidere).
  */
 export function Dialog({
   open,
@@ -578,12 +580,14 @@ export function Dialog({
   title,
   children,
   actions,
+  locked = false,
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
   actions: ReactNode;
+  locked?: boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -601,7 +605,9 @@ export function Dialog({
       ref={ref}
       aria-labelledby={titleId}
       onClose={onClose}
-      onClick={(e) => e.target === e.currentTarget && e.currentTarget.close()}
+      // Escape declanșează `cancel`; anulat, dialogul rămâne deschis.
+      onCancel={(e) => locked && e.preventDefault()}
+      onClick={(e) => e.target === e.currentTarget && !locked && e.currentTarget.close()}
       className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-0 text-ink shadow-xl backdrop:bg-[rgb(39_46_40/0.6)]"
     >
       {/* Dialogul însuși nu are padding: orice click direct pe el e un click pe fundal. */}
