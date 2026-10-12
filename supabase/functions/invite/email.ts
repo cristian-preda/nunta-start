@@ -36,8 +36,8 @@ export function inviteEmail(input: InviteEmailInput): { subject: string; html: s
   const copy =
     locale === 'ro'
       ? {
-          subject: `${inviter} v-a invitat în „${input.weddingName}"`,
-          lead: `${inviter} v-a invitat să planificați împreună nunta „${input.weddingName}", cu rolul ${role}.`,
+          subject: `${inviter} v-a invitat în „${input.weddingName}”`,
+          lead: `${inviter} v-a invitat să planificați împreună nunta „${input.weddingName}”, cu rolul ${role}.`,
           cta: 'Deschide invitația',
           note: `Linkul este valabil ${days} de zile și poate fi folosit o singură dată. Dacă nu vă așteptați la această invitație, ignorați mesajul.`,
         }
