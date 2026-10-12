@@ -71108,6 +71108,7 @@
       },
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -71191,12 +71192,14 @@
           "type": "frame",
           "id": "Q6c24",
           "name": "Content",
+          "clip": true,
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "padding": [
             20,
             16,
-            24,
+            96,
             16
           ],
           "children": [
@@ -72756,7 +72759,10 @@
           "type": "ref",
           "ref": "ZSRlv",
           "name": "Tab bar",
-          "width": "fill_container",
+          "width": 390,
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 768,
           "descendants": {
             "S4WWff": {
               "fill": "$accent"
@@ -72780,6 +72786,7 @@
       },
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -72863,12 +72870,14 @@
           "type": "frame",
           "id": "A2BXhy",
           "name": "Content",
+          "clip": true,
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "padding": [
             20,
             16,
-            24,
+            96,
             16
           ],
           "children": [
@@ -73971,7 +73980,10 @@
           "type": "ref",
           "ref": "ZSRlv",
           "name": "Tab bar",
-          "width": "fill_container",
+          "width": 390,
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 768,
           "descendants": {
             "Fkytr": {
               "fill": "$accent"
@@ -73995,6 +74007,7 @@
       },
       "clip": true,
       "width": 390,
+      "height": 844,
       "fill": "$bg",
       "layout": "vertical",
       "children": [
@@ -74078,12 +74091,14 @@
           "type": "frame",
           "id": "xi8hH",
           "name": "Content",
+          "clip": true,
           "width": "fill_container",
+          "height": "fill_container",
           "layout": "vertical",
           "padding": [
             20,
             16,
-            24,
+            96,
             16
           ],
           "children": [
@@ -75019,7 +75034,10 @@
           "type": "ref",
           "ref": "ZSRlv",
           "name": "Tab bar",
-          "width": "fill_container",
+          "width": 390,
+          "layoutPosition": "absolute",
+          "x": 0,
+          "y": 768,
           "descendants": {
             "YzmzS": {
               "fill": "$accent"
