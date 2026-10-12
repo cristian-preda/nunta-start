@@ -80,6 +80,9 @@ export function ShareDialog({
       open={open}
       onClose={onClose}
       title={t.timeline.shareTitle}
+      // Crearea (și oprirea) rulează pe server chiar dacă fereastra s-ar închide: un link nou ar înlocui
+      // pe cel vechi fără să-l mai vedeți. Cât timp cererea e în curs, dialogul nu se închide.
+      locked={busy}
       actions={
         <>
           <div className="mr-auto flex flex-col items-start gap-1">
@@ -88,7 +91,7 @@ export function ShareDialog({
               {confirmingStop ? t.timeline.shareStopConfirm : t.timeline.shareStop}
             </Button>
           </div>
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" disabled={busy} onClick={onClose}>
             {t.timeline.shareClose}
           </Button>
           {!url && (

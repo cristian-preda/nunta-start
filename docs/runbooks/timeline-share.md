@@ -19,6 +19,8 @@ npx supabase link --project-ref <ref>
 npx supabase functions deploy timeline-share
 ```
 
+Funcția păstrează verificarea implicită a JWT-ului (`verify_jwt = true`), deci nu cere nicio configurare în `config.toml`. Aplicația trimite cheia **anon** (publică, e și în bundle-ul paginii), iar platforma o acceptă; o cerere fără antete (de exemplu un `curl` simplu) primește 401 de la platformă, înainte să ajungă la funcție.
+
 Fără funcția publicată, pagina arată „Linkul nu mai funcționează" sau o eroare de rețea, iar dialogul de distribuire creează linkuri care nu se pot deschide încă.
 
 ## Verificare pe staging
@@ -27,7 +29,9 @@ Fără funcția publicată, pagina arată „Linkul nu mai funcționează" sau o
 2. Deschideți-l într-o fereastră privată (fără cont): vedeți programul, fără meniul aplicației. Ctrl+P: fără antet și fără buton, text închis pe alb, chiar dacă browserul e pe tema întunecată.
 3. Creați un link nou: cel vechi dă „Linkul nu mai funcționează", cel nou merge.
 4. Oprește distribuirea: și cel nou dă „Linkul nu mai funcționează".
-5. `curl -i https://<ref>.supabase.co/functions/v1/timeline-share/<token>` trebuie să arate `cache-control: no-store`.
+5. Cu cheia anon (Dashboard → Project Settings → API) și un token valid:
+   `curl -i -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" https://<ref>.supabase.co/functions/v1/timeline-share/<token>`
+   trebuie să dea 200 și `cache-control: no-store`; cu un token inventat (40 de caractere hex), 404. Aceeași cerere fără antete dă 401 (verificarea JWT a platformei, e normal).
 
 ## Ce nu face
 
