@@ -1,4 +1,6 @@
-const PATH_TOKEN = /(\/(?:invite|r|t)\/)[^/?#"\\\s]+/g;
+// Rutele din browser (`/invite/…`, `/r/…`, `/t/…`) și adresele funcțiilor care primesc tokenul în cale
+// (`…/functions/v1/rsvp/…`, `…/functions/v1/timeline-share/…`): Faro le înregistrează și pe acestea (resource timing).
+const PATH_TOKEN = /(\/(?:invite|r|t|rsvp|timeline-share)\/)[^/?#"\\\s]+/g;
 const AUTH_PARAM = /([?&#](?:code|access_token|refresh_token|provider_token|token_hash|token)=)[^&#"\\\s]+/g;
 
 /** Scoate din text tokenul unei invitații, al unui link RSVP sau al programului distribuit și parametrii de autentificare din adrese, ca să nu ajungă la terți (telemetrie). */
