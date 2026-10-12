@@ -111,7 +111,10 @@ export function Landing() {
               <span className="block">{l.headline1} </span>
               <span className="block">{l.headline2}</span>
             </h1>
-            <p className="mt-6 max-w-[550px] text-base leading-relaxed text-muted lg:text-lg">{l.lead}</p>
+            <p className="mt-6 max-w-[550px] text-base leading-relaxed text-muted lg:text-lg">
+              <span className="md:hidden">{l.leadShort}</span>
+              <span className="hidden md:inline">{l.lead}</span>
+            </p>
             <div className="mt-7 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
               <Link to={ctaPath} className={PRIMARY}>
                 {ctaLabel}
@@ -122,7 +125,10 @@ export function Landing() {
                 <ArrowDown size={16} aria-hidden="true" />
               </a>
             </div>
-            <p className="mt-3 text-xs leading-relaxed text-muted sm:text-[13px]">{l.reassurance}</p>
+            <p className="mt-3 text-xs leading-relaxed text-muted sm:text-[13px]">
+              <span className="md:hidden">{l.reassuranceShort}</span>
+              <span className="hidden md:inline">{l.reassurance}</span>
+            </p>
           </div>
           <div className="relative lg:min-h-[540px]">
             <img
@@ -166,7 +172,10 @@ export function Landing() {
           aria-labelledby="landing-features"
           className={cx(WRAP, 'scroll-mt-8 py-14 lg:py-20')}
         >
-          <p className={cx(LABEL, 'text-accent')}>{l.featuresTitle}</p>
+          <p className={cx(LABEL, 'text-accent')}>
+            <span className="md:hidden">{l.featuresTitleShort}</span>
+            <span className="hidden md:inline">{l.featuresTitle}</span>
+          </p>
           <h2 id="landing-features" className={cx(HEADING, 'mt-4')}>
             {l.featuresHeading}
           </h2>
@@ -346,7 +355,7 @@ export function Landing() {
             'flex flex-col items-center justify-between gap-3 py-6 text-center text-xs text-muted md:flex-row md:text-left',
           )}
         >
-          <p>{l.footerPrivacy}</p>
+          <p>{l.footerNote}</p>
           <div className="flex flex-wrap justify-center gap-x-5">
             <Link to={paths.privacy} className={cx(TEXT_LINK, 'text-xs')}>
               {l.privacy}
@@ -359,6 +368,7 @@ export function Landing() {
             {l.haveAccount}{' '}
             <Link to={paths.login} className={cx(TEXT_LINK, 'text-xs')}>
               {l.haveAccountLink}
+              <ArrowRight size={13} aria-hidden="true" />
             </Link>
           </p>
         </div>
