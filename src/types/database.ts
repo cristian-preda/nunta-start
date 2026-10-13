@@ -221,13 +221,13 @@ isOneToOne: false
                   ]
                 },"households": {
                   Row: {
-                    "created_at": string,"id": string,"name": string,"notes": string,"position": number,"side": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                    "created_at": string,"id": string,"name": string,"notes": string,"position": number,"rsvp_answered_at": string | null,"rsvp_note": string,"side": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
                   }
                   Insert: {
-                    "created_at"?: string,"id"?: string,"name": string,"notes"?: string,"position"?: number,"side"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                    "created_at"?: string,"id"?: string,"name": string,"notes"?: string,"position"?: number,"rsvp_answered_at"?: string | null,"rsvp_note"?: string,"side"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"name"?: string,"notes"?: string,"position"?: number,"side"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                    "created_at"?: string,"id"?: string,"name"?: string,"notes"?: string,"position"?: number,"rsvp_answered_at"?: string | null,"rsvp_note"?: string,"side"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
                   }
                   Relationships: [
                     {
@@ -398,6 +398,9 @@ isOneToOne: false
 "generate_timeline_share_token":
 { Args: { "p_wedding_id": string }; Returns: string
                            },
+"get_rsvp_household":
+{ Args: { "p_token": string }; Returns: Json
+                           },
 "get_shared_timeline":
 { Args: { "p_token": string }; Returns: Json
                            },
@@ -414,6 +417,12 @@ isOneToOne: false
                            },
 "revoke_timeline_share_token":
 { Args: { "p_wedding_id": string }; Returns: undefined
+                           },
+"rsvp_rate_limit_hit":
+{ Args: { "p_key": string; "p_limit": number; "p_window_seconds": number }; Returns: boolean
+                           },
+"submit_rsvp":
+{ Args: { "p_answers": Json,"p_note": string,"p_token": string }; Returns: boolean
                            }
           }
           Enums: {

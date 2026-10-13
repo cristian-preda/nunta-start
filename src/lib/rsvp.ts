@@ -2,7 +2,7 @@ import type { AgeGroup, Attending, Diet } from '../domain/guests';
 import type { Messages } from '../i18n';
 
 /**
- * Contractul cu Edge Function-ul `rsvp` (NS-081, încă nepublicat). Pagina `/r/:token` (NS-082) e scrisă peste el:
+ * Contractul cu Edge Function-ul `rsvp` (NS-081). Pagina `/r/:token` (NS-082) e scrisă peste el:
  *
  *   GET  rsvp/<token>  ->  200 RsvpHousehold | 404 (token necunoscut)
  *   POST rsvp/<token>  body RsvpSubmission  ->  204 | 404 | 400 (răspuns invalid) | 403 (Turnstile) | 429 (prea multe cereri)
@@ -37,7 +37,7 @@ export interface RsvpSubmission {
   answers: RsvpAnswer[];
   /** O singură notă pentru toată familia. */
   note: string;
-  /** TODO(NS-081): tokenul Turnstile; lipsește cât timp widgetul nu există. */
+  /** Tokenul Turnstile; funcția îl cere doar când are TURNSTILE_SECRET_KEY, iar widgetul vine cu NS-023. */
   turnstileToken?: string;
 }
 

@@ -417,6 +417,8 @@ describe('guest mappers', () => {
     side: 'p2',
     notes: 'n',
     position: 20,
+    rsvp_note: '',
+    rsvp_answered_at: null,
     created_at: '',
     updated_at: '',
     updated_by: null,
@@ -460,7 +462,7 @@ describe('guest mappers', () => {
   });
 
   it('round-trips through the insert shapes', () => {
-    const { created_at, updated_at, updated_by, ...householdInsert } = householdRow;
+    const { created_at, updated_at, updated_by, rsvp_note, rsvp_answered_at, ...householdInsert } = householdRow;
     expect(householdToInsert('w1', householdFromRow(householdRow))).toEqual(householdInsert);
     const { created_at: c, updated_at: u, updated_by: b, ...guestInsert } = guestRow;
     expect(guestToInsert('w1', guestFromRow(guestRow))).toEqual(guestInsert);

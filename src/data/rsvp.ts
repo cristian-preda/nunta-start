@@ -12,7 +12,7 @@ function mapError(error: unknown): unknown {
   return error;
 }
 
-/** TODO(NS-081): clientul real către Edge Function-ul `rsvp`; contractul e descris în src/lib/rsvp.ts. */
+/** Clientul către Edge Function-ul `rsvp` (NS-081, supabase/functions/rsvp); contractul e descris în src/lib/rsvp.ts. */
 export const supabaseRsvpClient: RsvpClient = {
   async fetchHousehold(token) {
     const { data, error } = await getSupabase().functions.invoke(`rsvp/${encodeURIComponent(token)}`, {
