@@ -1,5 +1,5 @@
 begin;
-select plan(16);
+select plan(18);
 
 insert into public.allowed_emails (email) values ('a1@example.com');
 insert into auth.users (id, email) values ('00000000-0000-0000-0000-0000000000a1', 'a1@example.com');
@@ -62,6 +62,18 @@ select is(
 select is(
   (select rsvp_note from public.households where id = '00000000-0000-0000-0000-0000000000d1'),
   'Abia asteptam', 'the note is stored on the household');
+
+-- The guests' note is personal text: the household update is logged, but without the note.
+select is(
+  (select count(*)::int from public.activity_log
+   where entity = 'households' and entity_id = '00000000-0000-0000-0000-0000000000d1' and action = 'update'
+     and summary::text like '%Abia asteptam%'),
+  0, 'the activity log holds no rsvp_note text');
+select is(
+  (select count(*)::int from public.activity_log
+   where entity = 'households' and entity_id = '00000000-0000-0000-0000-0000000000d1'
+     and summary::text like '%rsvp_note%'),
+  0, 'the activity log has no rsvp_note key');
 
 -- Rate limit: 2 allowed, the 3rd is refused.
 set local role service_role;

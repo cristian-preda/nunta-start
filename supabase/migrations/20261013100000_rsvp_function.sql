@@ -124,3 +124,42 @@ revoke all on function public.rsvp_rate_limit_hit(text, int, int) from public, a
 grant execute on function public.get_rsvp_household(text) to service_role;
 grant execute on function public.submit_rsvp(text, jsonb, text) to service_role;
 grant execute on function public.rsvp_rate_limit_hit(text, int, int) to service_role;
+
+-- households.rsvp_note is text written by guests: like notes and note, it must not be copied into the
+-- activity log (kept 180 days). Same function as 20261008200000_activity_log.sql plus 'rsvp_note' in the skip list.
+create or replace function private.write_activity_log()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  skip text[] := array['created_at', 'updated_at', 'updated_by', 'first_name', 'last_name', 'notes', 'note', 'details', 'rsvp_note']
+    || case when tg_table_name = 'households' then array['name'] else '{}'::text[] end;
+  old_row jsonb := to_jsonb(old) - skip;
+  new_row jsonb := to_jsonb(new) - skip;
+  rec jsonb := coalesce(new_row, old_row);
+  wid uuid := (rec ->> 'wedding_id')::uuid;
+  eid uuid := coalesce(rec ->> 'id', rec ->> 'wedding_id')::uuid;
+  diff jsonb;
+begin
+  if tg_op = 'UPDATE' then
+    select coalesce(jsonb_object_agg(n.key, jsonb_build_object('old', old_row -> n.key, 'new', n.value)), '{}')
+      into diff
+      from jsonb_each(new_row) n
+      where old_row -> n.key is distinct from n.value;
+    if diff = '{}' then
+      return null;
+    end if;
+  end if;
+
+  -- A cascading wedding delete removes children after the wedding: nothing to attach a row to.
+  if not exists (select 1 from public.weddings where id = wid) then
+    return null;
+  end if;
+
+  insert into public.activity_log (wedding_id, actor_id, entity, entity_id, action, summary)
+  values (wid, (select auth.uid()), tg_table_name, eid, lower(tg_op), case tg_op when 'UPDATE' then diff else rec end);
+  return null;
+end;
+$$;

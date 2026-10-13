@@ -62,10 +62,16 @@ export function tokenFromUrl(url: string): string {
   }
 }
 
-/** The caller's IP as the platform proxy reports it; null when no header carries one. */
+/**
+ * The caller's IP, from a header the proxy sets rather than one the caller can forge: Cloudflare's
+ * `cf-connecting-ip`, else the LAST `x-forwarded-for` entry (the one the proxy appended; earlier entries
+ * are whatever the client sent). Null when neither is present.
+ */
 export function clientIp(req: Request): string | null {
-  const forwarded = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-  return forwarded || req.headers.get('cf-connecting-ip')?.trim() || null;
+  const cf = req.headers.get('cf-connecting-ip')?.trim();
+  if (cf) return cf;
+  const forwarded = req.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim();
+  return forwarded || null;
 }
 
 type Parsed = { answers: RsvpAnswer[]; note: string; turnstileToken: string } | null;

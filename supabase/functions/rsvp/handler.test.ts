@@ -35,9 +35,20 @@ describe('tokenFromUrl / clientIp', () => {
     expect(tokenFromUrl(`https://x.test/rsvp/${TOKEN}/`)).toBe(TOKEN);
     expect(tokenFromUrl('https://x.test/rsvp/%E0%A4%A')).toBe('');
   });
-  it('uses the first forwarded address', () => {
-    expect(clientIp(get(TOKEN, { headers: { 'x-forwarded-for': '1.2.3.4, 10.0.0.1' } }))).toBe('1.2.3.4');
+  it('uses the last forwarded address, the one the proxy appended', () => {
+    expect(clientIp(get(TOKEN, { headers: { 'x-forwarded-for': '1.2.3.4, 10.0.0.1' } }))).toBe('10.0.0.1');
     expect(clientIp(get())).toBeNull();
+  });
+  it('prefers cf-connecting-ip over x-forwarded-for', () => {
+    const headers = { 'cf-connecting-ip': '7.7.7.7', 'x-forwarded-for': 'spoofed, 10.0.0.1' };
+    expect(clientIp(get(TOKEN, { headers }))).toBe('7.7.7.7');
+  });
+  it('is not changed by a spoofed leading x-forwarded-for entry', async () => {
+    const d = deps();
+    await handleRsvp(get(TOKEN, { headers: { 'x-forwarded-for': 'spoofed-1, 10.0.0.1' } }), d);
+    await handleRsvp(get(TOKEN, { headers: { 'x-forwarded-for': 'spoofed-2, 10.0.0.1' } }), d);
+    expect(d.allowRequest).toHaveBeenNthCalledWith(1, '10.0.0.1');
+    expect(d.allowRequest).toHaveBeenNthCalledWith(2, '10.0.0.1');
   });
 });
 

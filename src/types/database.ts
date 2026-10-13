@@ -419,7 +419,7 @@ isOneToOne: false
 { Args: { "p_wedding_id": string }; Returns: undefined
                            },
 "rsvp_rate_limit_hit":
-{ Args: { "p_key": string; "p_limit": number; "p_window_seconds": number }; Returns: boolean
+{ Args: { "p_key": string,"p_limit": number,"p_window_seconds": number }; Returns: boolean
                            },
 "submit_rsvp":
 { Args: { "p_answers": Json,"p_note": string,"p_token": string }; Returns: boolean
