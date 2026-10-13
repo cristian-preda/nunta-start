@@ -56,8 +56,19 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
-      # Stiva locală completă (Auth, Mailpit, API); fără Studio și celelalte servicii de care testele nu au nevoie.
-      - run: npx supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor
+      # Stiva locală completă (Auth, Mailpit, Edge Runtime, API); fără Studio și celelalte servicii de care testele nu au nevoie.
+      - run: npx supabase start -x studio,imgproxy,logflare,vector,supavisor
+      # Funcția `invite` trimite emailul în Mailpit (nu prin Resend); rețeaua Docker a stivei vede containerul lui.
+      - name: Serve the invite function
+        run: |
+          printf 'INVITE_MAILPIT_URL=http://supabase_inbucket_nunta-start:8025\nSITE_URL=http://localhost:5173\n' > "$RUNNER_TEMP/invite.env"
+          npx supabase functions serve invite --env-file "$RUNNER_TEMP/invite.env" > "$RUNNER_TEMP/functions.log" 2>&1 &
+          for _ in $(seq 60); do
+            [ "$(curl -s -o /dev/null -w '%{http_code}' -X OPTIONS http://127.0.0.1:54321/functions/v1/invite)" = 200 ] && exit 0
+            sleep 2
+          done
+          cat "$RUNNER_TEMP/functions.log"
+          exit 1
       - name: Point the app at the local stack
         run: |
           eval "$(npx supabase status -o env)"
