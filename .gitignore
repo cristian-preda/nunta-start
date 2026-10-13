@@ -6,3 +6,5 @@ dist
 .vitest
 .claude
 .playwright-mcp
+test-results
+playwright-report

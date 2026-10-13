@@ -26,5 +26,6 @@ export default defineConfig({
   ],
   test: {
     environment: 'node',
+    include: ['src/**/*.test.{ts,tsx}'], // keeps Playwright's e2e/*.spec.ts out
   },
 });
