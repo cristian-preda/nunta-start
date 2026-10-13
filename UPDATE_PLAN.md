@@ -268,7 +268,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-120 | P0 | Migration: `timeline_events` + per-wedding share token + RLS + pgTAP | 2 | NS-026 | Tests are green | ✅ |
 | NS-121 | P0 | Timeline UI: CRUD and reorder (the vendor link returns with the vendors module) | 4 | NS-120 | Works on mobile *Add, edit, delete, move up/down, live updates; new events are placed by time. Layout checked at 360px and desktop in both themes from a server render; not yet exercised in a browser against a live Supabase (no E2E until NS-057). The share link is NS-122* | ✅ |
 | NS-122 | P1 | Public `/t/:token` read-only page + print CSS | 3 | NS-121 | A vendor opens the link without an account; it prints cleanly *Code, pgTAP, print check (PDF in Chromium, light and dark) and runbook done; the `timeline-share` function still has to be deployed and checked on staging by hand (`docs/runbooks/timeline-share.md`)* | 🟨 |
-| NS-123 | P1 | E2E: timeline happy path (the seating E2E returns with seating) | 2 | NS-121 | Green in CI | ⬜ |
+| NS-123 | P1 | E2E: timeline happy path (the seating E2E returns with seating) | 2 | NS-121 | Green in CI *Spec `e2e/timeline.spec.ts`: create (placed by time), edit, reorder, delete, share link opened by an anonymous context, stop sharing. Green locally against the local stack (repeat runs and full suite); the CI job has not run yet, and the `timeline-share` function is only checked against the local Edge runtime, not staging* | 🟨 |
 
 ---
 
