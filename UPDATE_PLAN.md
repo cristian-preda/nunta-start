@@ -174,7 +174,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-054 | P0 | Client realtime: subscribe per open wedding, patch the Query cache, refetch on reconnect | 3 | NS-053, NS-042 | An edit in tab A appears in tab B in under 1 s | ✅ |
 | NS-056 | P1 | `activity_log` table + generic audit trigger + `pg_cron` purge after 180 days | 2 | NS-028 | Rows are written for each insert, update and delete | ✅ *Covers tasks, budget and guests; updates store changed fields only, guest names and notes are never logged; any member can read, nobody can write* |
 | NS-057 | P0 | Playwright in CI against the local stack; magic-link helper that reads Mailpit | 3 | NS-013, NS-022 | A sample login E2E is green in CI *`e2e/` + `npm run test:e2e`; CI job `e2e` starts the local stack and signs in with the 8-digit code read from Mailpit (the sign-in is a code, not a link)* | ✅ |
-| NS-058 | P0 | E2E: sign in → create wedding → invite partner → both edit a task live | 3 | NS-054, NS-057 | Green in CI | ⬜ |
+| NS-058 | P0 | E2E: sign in → create wedding → invite partner → both edit a task live | 3 | NS-054, NS-057 | Green in CI *`e2e/invite-live-edit.spec.ts`: two browser contexts, invite email read from Mailpit; CI serves `invite` with `INVITE_MAILPIT_URL`, which delivers to Mailpit instead of Resend* | ✅ |
 
 ---
 
