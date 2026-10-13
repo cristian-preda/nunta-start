@@ -995,7 +995,7 @@ export const en: Messages = {
     },
   },
   legal: {
-    draft: 'Draft document, under review',
+    draft: 'Draft, invite-only beta. This text has not yet been reviewed by a lawyer and may be incomplete or change.',
     updated: 'Last updated',
     toc: 'Contents',
     privacyTitle: 'Privacy policy',

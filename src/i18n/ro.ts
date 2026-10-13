@@ -1001,7 +1001,8 @@ export const ro = {
     },
   },
   legal: {
-    draft: 'Proiect de document, în curs de revizuire',
+    draft:
+      'Proiect, versiune beta pe invitație. Acest text nu a fost încă revizuit de un jurist și poate fi incomplet sau se poate schimba.',
     updated: 'Ultima actualizare',
     toc: 'Cuprins',
     privacyTitle: 'Politica de confidențialitate',
