@@ -65,6 +65,19 @@ test('a household answers its RSVP link from an anonymous browser', async ({ bro
   const second = await addGuest(owner, 1, 'Ion', 'Popescu');
   await expect(first.getByLabel('RSVP')).toHaveValue('unknown');
 
+  // Writes are optimistic and queued: a second page proves the household and guests are persisted
+  // before the link is generated (the owner page itself is never reloaded mid-queue).
+  const check = await context.newPage();
+  await expect(async () => {
+    await check.goto(`/w/${weddingId}/guests`);
+    await expect(check.getByLabel('Household name')).toHaveValue('Popescu family', { timeout: 2000 });
+    await expect(check.getByLabel('First name').nth(0)).toHaveValue('Maria', { timeout: 2000 });
+    await expect(check.getByLabel('Last name').nth(0)).toHaveValue('Popescu', { timeout: 2000 });
+    await expect(check.getByLabel('First name').nth(1)).toHaveValue('Ion', { timeout: 2000 });
+    await expect(check.getByLabel('Last name').nth(1)).toHaveValue('Popescu', { timeout: 2000 });
+  }).toPass();
+  await check.close();
+
   // Owner: generate the household link (the first click asks for confirmation).
   owner.once('dialog', (dialog) => dialog.accept());
   await owner.getByRole('button', { name: 'Copy link' }).click();
