@@ -20,7 +20,7 @@ export const legalRo: LegalContent = {
         'Planul nunții: numele celor doi parteneri, data, orașul sau locația, sarcinile, liniile de buget, programul zilei, paginile personalizate și lista de invitați pe care o introduceți.',
         'Invitați: nume, grupa de vârstă, partea (mireasă sau mire), răspunsul de participare și o preferință de meniu (clasic, vegetarian sau vegan). Nu colectăm alergii sau alte date despre sănătate. Invitații pot adăuga și o notă liberă prin linkul de confirmare: vă rugăm să nu scrieți date medicale în ea.',
         'Date tehnice: erori și măsurători de performanță ale aplicației, fără identitate de utilizator, cu adresele curățate de tokenuri (vezi „Cine prelucrează datele”).',
-        'Pagina publică de confirmare (RSVP) nu cere cont și este protejată cu Cloudflare Turnstile și limite de cereri.',
+        'Pagina publică de confirmare (RSVP) nu cere cont și va fi protejată cu Cloudflare Turnstile și limite de cereri după activarea fluxului de confirmare pentru invitați; această protecție nu este încă activă.',
       ],
     },
     {
@@ -53,7 +53,7 @@ export const legalRo: LegalContent = {
       heading: 'Cine prelucrează datele',
       paragraphs: [
         'Supabase: baza de date și autentificarea, într-o regiune din UE.',
-        'Cloudflare: găzduirea aplicației (Pages), DNS și protecția anti-boți Turnstile pe pagina publică de confirmare.',
+        'Cloudflare: găzduirea aplicației (Pages), DNS și, după activarea paginii publice de confirmare, protecția anti-boți Turnstile.',
         'Resend: trimiterea emailurilor tranzacționale (codul de conectare, invitații).',
         'Grafana Cloud (Faro): monitorizarea erorilor și a performanței din aplicație. Nu trimitem identitatea utilizatorului.',
         'Google: conectarea cu contul Google, dacă alegeți această metodă.',

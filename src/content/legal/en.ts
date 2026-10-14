@@ -20,7 +20,7 @@ export const legalEn: LegalContent = {
         'Wedding plan: the partners’ names, the date, the city or venue, tasks, budget lines, the day-of timeline, custom pages and the guest list you enter.',
         'Guests: name, age group, side (bride or groom), RSVP answer and a menu preference (classic, vegetarian or vegan). We do not collect allergies or other health data. Guests can also add a free-text note through the RSVP link: please do not write medical information in it.',
         'Technical data: application errors and performance measurements, with no user identity and with tokens stripped from addresses (see “Who processes the data”).',
-        'The public RSVP page needs no account and is protected by Cloudflare Turnstile and rate limits.',
+        'The public RSVP page needs no account and will be protected by Cloudflare Turnstile and rate limits once the guest RSVP flow is enabled; this protection is not active yet.',
       ],
     },
     {
@@ -53,7 +53,7 @@ export const legalEn: LegalContent = {
       heading: 'Who processes the data',
       paragraphs: [
         'Supabase: database and authentication, in an EU region.',
-        'Cloudflare: app hosting (Pages), DNS and Turnstile bot protection on the public RSVP page.',
+        'Cloudflare: app hosting (Pages), DNS and, once the public RSVP page is enabled, Turnstile bot protection.',
         'Resend: transactional email (the sign-in code, invitations).',
         'Grafana Cloud (Faro): frontend error and performance monitoring. We do not send user identity.',
         'Google: sign-in with your Google account, if you choose that method.',
