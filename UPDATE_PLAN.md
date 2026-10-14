@@ -218,7 +218,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
 | NS-080 | P0 | Per-household RSVP token (stored hashed) + "Copy link" and "Share on WhatsApp" buttons | 2 | NS-072 | A link is generated and copied | ✅ Migration `household_rsvp_tokens` (sha256 hash only, RLS with no policies) + RPC `generate_household_rsvp_token` (rotates); `RsvpLinkButtons` copies `/r/<token>` or opens WhatsApp. pgTAP 019 not run locally. |
-| NS-081 | P0 | Edge Function `rsvp`: GET the household by token, POST the answers; Turnstile check; per-IP rate limit | 4 | NS-080, NS-023 | An invalid token gives 404; a bot gets rejected | ⬜ |
+| NS-081 | P0 | Edge Function `rsvp`: GET the household by token, POST the answers; Turnstile check; per-IP rate limit | 4 | NS-080, NS-023 | An invalid token gives 404; a bot gets rejected | 🟨 Function `rsvp` + migration `rsvp_function` (RPCs `get_rsvp_household`, `submit_rsvp`, `rsvp_rate_limit_hit`, service_role only) + handler unit tests + runbook `rsvp.md`; `src/data/rsvp.ts` already calls it. Not run against a real stack: pgTAP 026 and the deployed function unverified. Turnstile is verified only when `TURNSTILE_SECRET_KEY` is set (secret/widget = NS-023). |
 | NS-082 | P0 | Public `/r/:token` page: household members, attending, diet, note, GDPR notice; mobile-first | 4 | NS-081 | A guest answers on a phone; the couple sees it live | 🟨 UI done against mocked client; needs NS-081 for end-to-end |
 | NS-083 | P1 | Budget: an "Actual" scenario fed by the confirmed guest count | 2 | NS-075, NS-043 | Its card updates as RSVPs arrive | ⬜ |
 | NS-084 | P1 | E2E: the RSVP flow from an anonymous browser | 2 | NS-082 | Green in CI | ⬜ |
