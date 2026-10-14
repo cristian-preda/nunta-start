@@ -44,7 +44,7 @@ export const legalEn: LegalContent = {
       heading: 'Operator access to data',
       paragraphs: [
         'The data is not encrypted in a way that makes it technically unreadable to the operator; the protection is operational. We commit that the operator does not browse user data and accesses it only when necessary (for example to fix a fault or at your request), with least privilege.',
-        'Use of privileged access (the service key) is logged and reviewed. We collect as little personal data as possible and do not ask for sensitive data.',
+        'We intend to log and review every use of privileged access (the service key); this audit trail is not built yet. We collect as little personal data as possible and do not ask for sensitive data.',
         'These rules are being formalised in an internal operational document; this text will be aligned with it.',
       ],
     },
@@ -64,7 +64,7 @@ export const legalEn: LegalContent = {
       heading: 'How long we keep data',
       paragraphs: [
         'Plan data is kept while your account exists. The activity log is kept for 180 days.',
-        'When you delete your account in Settings, a wedding of which you are the only owner is hidden immediately and permanently deleted after 30 days.',
+        'Account deletion in Settings is being rolled out: when enabled, a wedding of which you are the only owner is hidden immediately and permanently deleted after 30 days.',
         'Backups: we plan encrypted daily copies stored at Cloudflare R2, with rotation. At the date of this draft that job is not yet active.',
       ],
     },
@@ -73,7 +73,7 @@ export const legalEn: LegalContent = {
       heading: 'Your rights',
       paragraphs: [
         'Under the GDPR you have the right to access, export (portability), rectify, delete and object to processing. You may also lodge a complaint with the Romanian data protection authority (ANSPDCP).',
-        'From Settings → Data and space you can download your data (JSON) and delete your account.',
+        'From Settings → Data and space you can download your data (JSON); account deletion is being rolled out there and, until it is enabled, can be requested by email.',
         `For any other request, write to ${LEGAL_CONTACT_EMAIL}. We reply within 30 days.`,
       ],
     },
@@ -119,7 +119,7 @@ export const legalEn: LegalContent = {
       heading: 'Your content',
       paragraphs: [
         'The data you enter remains yours. You give us the right to store it and show it to the plan’s members, strictly to provide the service.',
-        'You can export or delete your data at any time from Settings.',
+        'You can export your data at any time from Settings; deletion is being rolled out (see the privacy policy).',
       ],
     },
     {

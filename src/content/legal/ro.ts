@@ -44,7 +44,7 @@ export const legalRo: LegalContent = {
       heading: 'Accesul operatorului la date',
       paragraphs: [
         'Datele nu sunt criptate astfel încât operatorul să nu le poată citi tehnic; protecția este una operațională. Ne angajăm ca operatorul să nu răsfoiască datele utilizatorilor și să le acceseze doar când este necesar (de exemplu pentru a remedia o defecțiune sau la cererea dumneavoastră), cu drepturi minime.',
-        'Folosirea accesului privilegiat (cheia de serviciu) este înregistrată și verificată. Colectăm cât mai puține date personale și nu cerem date sensibile.',
+        'Intenționăm să înregistrăm și să verificăm fiecare folosire a accesului privilegiat (cheia de serviciu); acest jurnal de audit nu este încă construit. Colectăm cât mai puține date personale și nu cerem date sensibile.',
         'Aceste reguli sunt în curs de formalizare într-un document operațional intern; acest text va fi aliniat cu el.',
       ],
     },
@@ -64,7 +64,7 @@ export const legalRo: LegalContent = {
       heading: 'Cât timp păstrăm datele',
       paragraphs: [
         'Datele planului se păstrează cât timp contul există. Jurnalul de activitate se păstrează 180 de zile.',
-        'Când ștergeți contul din Setări, o nuntă al cărei unic proprietar sunteți este ascunsă imediat și ștearsă definitiv după 30 de zile.',
+        'Ștergerea contului din Setări este în curs de activare: odată activă, o nuntă al cărei unic proprietar sunteți este ascunsă imediat și ștearsă definitiv după 30 de zile.',
         'Copii de siguranță: planificăm copii zilnice criptate, stocate la Cloudflare R2, cu rotație. La data acestui proiect, această procedură nu este încă activă.',
       ],
     },
@@ -73,7 +73,7 @@ export const legalRo: LegalContent = {
       heading: 'Drepturile dumneavoastră',
       paragraphs: [
         'Conform GDPR, aveți dreptul de acces, de export (portabilitate), de rectificare, de ștergere și de opoziție față de prelucrare. Aveți și dreptul de a depune o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP).',
-        'Din Setări → Datele și spațiul puteți descărca datele (JSON) și vă puteți șterge contul.',
+        'Din Setări → Datele și spațiul puteți descărca datele (JSON); ștergerea contului este în curs de activare și, până atunci, poate fi cerută pe email.',
         `Pentru orice altă cerere, scrieți-ne la ${LEGAL_CONTACT_EMAIL}. Răspundem în cel mult 30 de zile.`,
       ],
     },
@@ -119,7 +119,7 @@ export const legalRo: LegalContent = {
       heading: 'Conținutul dumneavoastră',
       paragraphs: [
         'Datele pe care le introduceți rămân ale dumneavoastră. Ne dați dreptul de a le stoca și afișa membrilor planului, strict ca să furnizăm serviciul.',
-        'Vă puteți exporta sau șterge datele oricând din Setări.',
+        'Vă puteți exporta datele oricând din Setări; ștergerea este în curs de activare (vezi politica de confidențialitate).',
       ],
     },
     {
