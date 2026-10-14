@@ -2,6 +2,7 @@ import { Link, useParams } from '@tanstack/react-router';
 import { CircleCheck, Loader2, MailX } from 'lucide-react';
 import { type FormEvent, useEffect, useState } from 'react';
 import { PublicLayout } from '../components/PublicLayout';
+import { TurnstileWidget } from '../components/TurnstileWidget';
 import { Banner, Button, Field, Heading, Segmented, Select, TextArea } from '../components/ui';
 import { supabaseRsvpClient } from '../data/rsvp';
 import { DIETS } from '../domain/guests';
@@ -56,7 +57,16 @@ type Load =
   | { status: 'ready'; household: RsvpHousehold }
   | { status: 'error'; kind: RsvpErrorKind };
 
-export function RsvpPage({ token, client: clientProp }: { token: string; client: RsvpClient }) {
+export function RsvpPage({
+  token,
+  client: clientProp,
+  turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY,
+}: {
+  token: string;
+  client: RsvpClient;
+  /** Fără cheie nu apare widgetul și cererea pleacă fără token (dev local, CI). */
+  turnstileSiteKey?: string;
+}) {
   const t = useT();
   const r = t.rsvp;
   const [preview] = useState(readPreview);
@@ -68,6 +78,10 @@ export function RsvpPage({ token, client: clientProp }: { token: string; client:
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState<RsvpErrorKind | null>(null);
   const [showMissing, setShowMissing] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [turnstileFailed, setTurnstileFailed] = useState(false);
+  const [showVerify, setShowVerify] = useState(false);
 
   useDocumentTitle(pageTitle(r.eyebrow, t.appName));
 
@@ -102,22 +116,34 @@ export function RsvpPage({ token, client: clientProp }: { token: string; client:
   function submit(event: FormEvent) {
     event.preventDefault();
     if (!form || sending) return;
-    // TODO(NS-081): se adaugă tokenul Turnstile ca al doilea argument.
-    const submission = toSubmission(form);
+    const submission = toSubmission(form, turnstileToken);
     if (!submission) {
       setShowMissing(true);
       return;
     }
+    if (turnstileSiteKey && !turnstileToken) {
+      setShowVerify(true);
+      return;
+    }
     setShowMissing(false);
+    setShowVerify(false);
     setSendError(null);
     setSending(true);
+    // Tokenul Turnstile se consumă la prima folosire, indiferent de rezultat.
+    const spendToken = () => {
+      if (!turnstileSiteKey) return;
+      setTurnstileToken('');
+      setTurnstileResetKey((n) => n + 1);
+    };
     client.submitRsvp(token, submission).then(
       () => {
         setSending(false);
         setSent(true);
+        spendToken();
       },
       (error: unknown) => {
         setSending(false);
+        spendToken();
         const kind = rsvpErrorKind(error);
         if (kind === 'notFound') setLoad({ status: 'error', kind });
         else setSendError(kind);
@@ -253,8 +279,22 @@ export function RsvpPage({ token, client: clientProp }: { token: string; client:
                 />
               </Field>
 
-              {/* TODO(NS-081): aici se montează widgetul Cloudflare Turnstile (cheia vine din NS-023). */}
-              <div data-turnstile-slot="" hidden />
+              {turnstileSiteKey && (
+                <TurnstileWidget
+                  siteKey={turnstileSiteKey}
+                  resetKey={turnstileResetKey}
+                  onToken={(value) => {
+                    setTurnstileToken(value);
+                    if (value) {
+                      setTurnstileFailed(false);
+                      setShowVerify(false);
+                    }
+                  }}
+                  onError={() => setTurnstileFailed(true)}
+                />
+              )}
+              {turnstileFailed && <Banner tone="warn">{r.verify.failed}</Banner>}
+              {showVerify && !turnstileToken && !turnstileFailed && <Banner tone="warn">{r.verify.required}</Banner>}
 
               {showMissing && unanswered(form).length > 0 && <Banner tone="warn">{r.missing}</Banner>}
               {sendError && (

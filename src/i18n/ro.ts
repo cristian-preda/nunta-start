@@ -1028,7 +1028,10 @@ export const ro = {
     noteLabel: 'Un mesaj pentru miri (opțional)',
     noteHint: (max: number) => `Un loc pentru cărucior, urări. Cel mult ${max} de caractere.`,
     notePlaceholder: 'Scrieți aici…',
-    // TODO(NS-081): aici apare widgetul Turnstile; până atunci cererea pleacă fără token.
+    verify: {
+      required: 'Așteptați să se încheie verificarea de mai sus, apoi trimiteți din nou.',
+      failed: 'Verificarea anti-boți nu s-a putut încărca. Reîncărcați pagina și încercați din nou.',
+    },
     submit: 'Trimite răspunsul',
     submitting: 'Se trimite…',
     missing: 'Mai lipsește un răspuns. Alegeți pentru fiecare invitat.',

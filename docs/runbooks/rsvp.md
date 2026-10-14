@@ -19,9 +19,18 @@ Pipeline-ul `deploy.yml` aplică doar migrațiile (`20261013100000_rsvp_function
 ```bash
 npx supabase link --project-ref <ref>
 npx supabase functions deploy rsvp
-# doar după NS-023 (widgetul există și pagina trimite tokenul):
-npx supabase secrets set TURNSTILE_SECRET_KEY=...
 ```
+
+### Turnstile (NS-023)
+
+Ordinea contează: **întâi** site key-ul în frontend, **apoi** secretul pe funcție. Invers, funcția cere un token pe care pagina încă nu-l trimite și nimeni nu mai poate răspunde.
+
+1. Cloudflare → Turnstile → Add site; domenii: `theromans.thedevopsguy.ro`, domeniul Pages de staging, `localhost`; mod Managed.
+2. Pages → Settings → Environment variables: `VITE_TURNSTILE_SITE_KEY=<site key>` (production și preview), apoi redeploy. Pagina `/r/<token>` arată widgetul și trimite tokenul.
+3. Abia apoi: `npx supabase secrets set TURNSTILE_SECRET_KEY=<secret key> --project-ref <ref>` (secretul nu se pune niciodată în repo sau în Pages).
+4. Verificare: un POST fără `turnstileToken` dă 403; din pagină, răspunsul merge. Fără `VITE_TURNSTILE_SITE_KEY` widgetul nu apare și cererea pleacă fără token (local, CI).
+
+După ce e activ pe producție, înlocuiți în `src/content/legal/{ro,en}.ts` formularea „nu este încă activă".
 
 `SUPABASE_URL` și `SUPABASE_SERVICE_ROLE_KEY` le dă platforma. Funcția păstrează verificarea implicită a JWT-ului: aplicația trimite cheia anon (publică), iar o cerere fără antete primește 401 de la platformă.
 
@@ -46,5 +55,5 @@ Fără `TURNSTILE_SECRET_KEY` verificarea se sare. `npx supabase functions serve
 ## Ce nu face încă
 
 - CI nu servește funcția `rsvp` (testul e2e al fluxului anonim e NS-084).
-- Nu există widget Turnstile în pagină (NS-023).
+- Widgetul Turnstile apare doar când `VITE_TURNSTILE_SITE_KEY` e setat; fără cheile din Cloudflare nu e activ nicăieri.
 - Limita pe IP e per proiect și simplă (fereastră fixă): mai mulți invitați în aceeași rețea (aceeași adresă la nuntă, de exemplu) împart același buget de 60 de cereri.

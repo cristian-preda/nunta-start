@@ -1021,7 +1021,10 @@ export const en: Messages = {
     noteLabel: 'A message for the couple (optional)',
     noteHint: (max: number) => `Room for a stroller, wishes. Up to ${max} characters.`,
     notePlaceholder: 'Write here…',
-    // TODO(NS-081): the Turnstile widget goes here; until then the request is sent without a token.
+    verify: {
+      required: 'Wait for the check above to finish, then send again.',
+      failed: 'The bot check could not load. Reload the page and try again.',
+    },
     submit: 'Send answer',
     submitting: 'Sending…',
     missing: 'An answer is missing. Pick one for every guest.',
